@@ -13,30 +13,69 @@
     <?php require_once("./config/nav.php") ?>
 
     <div class="container">
-        <h2 class="mt-3">Register</h2>
+        <h2 class="mt-3">Register Page</h2>
         <hr>
-        <form action="signup_db.php" method="post">
+
+        <?php
+        include_once("./config/connect_db.php");
+        include_once("./class/User.php");
+
+        $connectDB = new Database();
+        $db = $connectDB->getConnection();
+
+        $user = new User($db);
+
+
+        if (isset($_POST['signup'])) {
+            $user->setFname($_POST['firstname']);
+            $user->setLname($_POST['lastname']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+            $user->setConfirmPassword($_POST['confirm_password']);
+
+            if (!$user->validatePassword()) {
+                echo "<div class='alert alert-danger' role='alert'>Password does not match</div>";
+            }
+
+            if (!$user->checkPasswordLength()) {
+                echo '<div class="alert alert-danger" role="alert">Password must be at least 8 characters</div>';
+            }
+
+            if ($user->checkEmail()) {
+                echo '<div class="alert alert-danger" role="alert">This email is already exits try another </div>';
+            }
+
+            if ($user->createUser()) {
+                echo '<div class="alert alert-success" role="alert">User created successfully. <a href="signin.php">Click here</a> to sign in.</div>';
+            }else{
+                echo '<div class="alert alert-danger" role="alert">Failed to create a user</div>';
+            }
+        }
+
+        ?>
+
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
             <div class="mb-3">
                 <label for="firstname" class="form-label">First name</label>
-                <input type="text" class="form-control" name="firstname" aria-describedby="firstname">
+                <input type="text" class="form-control" name="firstname" aria-describedby="firstname" required>
             </div>
             <div class="mb-3">
                 <label for="lastname" class="form-label">Last name</label>
-                <input type="text" class="form-control" name="lastname" aria-describedby="lastname">
+                <input type="text" class="form-control" name="lastname" aria-describedby="lastname" required>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" aria-describedby="email">
+                <input type="email" class="form-control" name="email" aria-describedby="email" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" name="password" aria-describedby="password">
+                <input type="password" class="form-control" name="password" aria-describedby="password" required>
             </div>
             <div class="mb-3">
                 <label for="confirm_password" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" name="confirm_password" aria-describedby="confirm_password">
+                <input type="password" class="form-control" name="confirm_password" aria-describedby="confirm_password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" name="signup">Submit</button>
         </form>
         <hr>
         <p>You already have an account? please <a href="./signin.php">Sign in</a></p>

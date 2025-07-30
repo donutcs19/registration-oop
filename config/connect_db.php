@@ -27,8 +27,8 @@ class Database
         $this->conn = null;
 
         try {
-            $this->conn = new PDO("mysql:host" .$this->HOST. ";dbname=" .$this->DBNAME. ";charset=" .$this->CHARSET. ";", $this->USERNAME, $this->PASSWORD);
-            echo "[Success] -> Connect successfuly ";
+            $this->conn = new PDO("mysql:host=" . $this->HOST . ";dbname=" . $this->DBNAME . ";charset=" . $this->CHARSET . ";", $this->USERNAME, $this->PASSWORD);
+            // echo "[Success] -> Connect successful ";
         } catch (PDOException $error) {
             echo "[Error] -> " . $error->getMessage();
         }
@@ -36,6 +36,6 @@ class Database
     }
 }
 
-$db = new Database();
-$db->getConnection();
+// $db = new Database();
+// $db->getConnection();
 
