@@ -1,0 +1,22 @@
+# ไม่เอาไฟล์ .env ขึ้น Git
+.env
+
+# Composer vendor folder
+/vendor/
+
+# ไฟล์ล็อกจาก Composer
+composer.lock
+composer.json
+
+# IDE เช่น VS Code หรือ PhpStorm
+.vscode/
+.idea/
+
+# ไฟล์แคชต่างๆ
+*.log
+*.cache
+*.tmp
+
+# ระบบปฏิบัติการ
+.DS_Store
+Thumbs.db
