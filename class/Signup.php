@@ -1,5 +1,5 @@
 <?php
-class User
+class Register
 {
     private $conn;
     private $table_name = "users";
@@ -67,15 +67,13 @@ class User
             return false;
         }
 
-        $query = "INSERT INTO {$this->table_name} (firstname, lastname, email, password, urole, created_at, updated_at) VALUES (:fname, :lname, :email, :password, 'user', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        $query = "INSERT INTO {$this->table_name}(firstname, lastname, email, password, urole, created_at, updated_at) VALUES (:fname, :lname, :email, :password, 'user', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         $stmt = $this->conn->prepare($query);
 
         $this->fname = htmlspecialchars(strip_tags($this->fname));
         $this->lname = htmlspecialchars(strip_tags($this->lname));
         $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = htmlspecialchars(strip_tags($this->password));
-
-
+        
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
 
 

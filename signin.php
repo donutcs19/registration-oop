@@ -4,16 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration-System-PDO</title>
+    <title>Shikikie : Signin</title>
     <?php require_once("./config/link.php") ?>
 </head>
 
 <body>
     <?php require_once("./config/nav.php") ?>
     <div class="container">
-        <h2 class="mt-3">Register</h2>
+        <h2 class="mt-3">Signin</h2>
+
+        <?php
+        include_once("./config/connect_db.php");
+        include_once("./class/Signin.php");
+
+        $connectDB = new Database();
+        $db = $connectDB->getConnection();
+
+        $user = new Signin($db);
+
+
+        if (isset($_POST['signin'])) {
+            
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+            
+            if ($user->emailNotExits()){
+                echo '<div class="alert alert-danger" role="alert">Email is not exits</div>';
+            }else{
+                if ($user->verifyPassword()){
+                    echo '<div class="alert alert-success" role="alert">Password matches</div>';
+                }else{
+                    echo '<div class="alert alert-danger" role="alert">Password do not match</div>';
+                }
+                echo '<div class="alert alert-success" role="alert">Email is exits</div>';
+            }
+           
+            }
+        ?>
         <hr>
-        <form action="check_signin.php" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" aria-describedby="email">
@@ -23,7 +52,7 @@
                 <input type="password" class="form-control" name="password" aria-describedby="password">
             </div>
 
-            <button type="submit" class="btn btn-primary">signin</button>
+            <button type="submit" class="btn btn-primary" name="signin">signin</button>
         </form>
         <hr>
         <p>You don't have an account? Please <a href="./signup.php">Sign up</a></p>

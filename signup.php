@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration-System-PDO</title>
+    <title>Shikikie : Register</title>
     <?php require_once("./config/link.php") ?>
 </head>
 
@@ -13,17 +13,17 @@
     <?php require_once("./config/nav.php") ?>
 
     <div class="container">
-        <h2 class="mt-3">Register Page</h2>
+        <h2 class="mt-3">Register</h2>
         <hr>
 
         <?php
         include_once("./config/connect_db.php");
-        include_once("./class/User.php");
+        include_once("./class/Signup.php");
 
         $connectDB = new Database();
         $db = $connectDB->getConnection();
 
-        $user = new User($db);
+        $user = new Register($db);
 
 
         if (isset($_POST['signup'])) {
@@ -54,7 +54,7 @@
 
         ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
             <div class="mb-3">
                 <label for="firstname" class="form-label">First name</label>
                 <input type="text" class="form-control" name="firstname" aria-describedby="firstname" required>

@@ -12,8 +12,14 @@
             </ul>
 
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="signin.php" class="btn btn-outline-primary ">Sign In</a></li>
-                <li class="nav-item"><a href="signup.php" class="btn btn-outline-success">Sign UP</a></li>
+                <?php
+                if (isset($_SESSION['userid'])) {
+                ?>
+                    <li class="nav-item"><a href="signout.php" class="btn btn-outline-danger ">Sign out</a></li>
+                <?php  } else { ?>
+                    <li class="nav-item"><a href="signin.php" class="btn btn-outline-primary ">Sign In</a></li>
+                    <li class="nav-item"><a href="signup.php" class="btn btn-outline-success">Sign UP</a></li>
+                <?php } ?>
             </ul>
         </div>
     </div>
