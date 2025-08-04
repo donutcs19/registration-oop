@@ -1,6 +1,7 @@
 <?php
 session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,27 +10,23 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shikikie : Welcome</title>
     <?php
-    require_once("./config/link.php")
+    require_once("./component/link.php")
     ?>
 
 </head>
 
 <body>
     <?php
-    require_once("./config/nav.php")
+    require_once("./component/nav.php");
     ?>
 
-   <div class="container">
-    
-    <?php 
+    <div class="container">
 
-        if (!isset($_SESSION['userid'])) {
-            header("Location: signin.php");
-            exit;
-        }
+        <?php
 
-        include_once("config/connect_db.php");
-        include_once("class/Signin.php");
+        include("./component/session.php");
+        include_once("../config/connect_db.php");
+        include_once("../class/Signin.php");
 
         $connectDB = new Database();
         $db = $connectDB->getConnection();
@@ -40,13 +37,13 @@ session_start();
             $userid = $_SESSION['userid'];
             $userData = $user->userData($userid);
         }
-    
-    ?>
 
-    <h1 class="display-4">Welcome User, <?php echo $userData['firstname']?>  <?php echo $userData['lastname']?></h1>
-    <p>Your email: <?php echo $userData['email']; ?></p>
+        ?>
 
-</div>
+        <h1 class="display-4">Welcome User, <?php echo $userData['firstname'] ?> <?php echo $userData['lastname'] ?></h1>
+        <p>Your email: <?php echo $userData['email']; ?></p>
+
+    </div>
 </body>
 
 </html>

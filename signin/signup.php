@@ -5,25 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shikikie : Register</title>
-    <?php require_once("./config/link.php") ?>
+    <?php require_once("./component/link.php") ?>
 </head>
 
 <body>
 
-    <?php require_once("./config/nav.php") ?>
+    <?php require_once("./component/nav.php") ?>
 
     <div class="container">
         <h2 class="mt-3">Register</h2>
         <hr>
 
         <?php
-        include_once("./config/connect_db.php");
-        include_once("./class/Signup.php");
+        include_once("../config/connect_db.php");
+        include_once("../class/Signup.php");
+        include_once("../class/Utils.php");
 
         $connectDB = new Database();
         $db = $connectDB->getConnection();
 
         $user = new Register($db);
+        $bs = new Bootstrap();
 
 
         if (isset($_POST['signup'])) {
@@ -34,21 +36,26 @@
             $user->setConfirmPassword($_POST['confirm_password']);
 
             if (!$user->validatePassword()) {
-                echo "<div class='alert alert-danger' role='alert'>Password does not match</div>";
+                $bs->displayAlert("Password does not match", "danger");
+                // echo "<div class='alert alert-danger' role='alert'>Password does not match</div>";
             }
 
             if (!$user->checkPasswordLength()) {
-                echo '<div class="alert alert-danger" role="alert">Password must be at least 8 characters</div>';
+                $bs->displayAlert("Password must be at least 8 characters", "danger");
+                // echo '<div class="alert alert-danger" role="alert">Password must be at least 8 characters</div>';
             }
 
             if ($user->checkEmail()) {
-                echo '<div class="alert alert-danger" role="alert">This email is already exits try another </div>';
+                $bs->displayAlert("This email is already exits try another", "danger");
+                // echo '<div class="alert alert-danger" role="alert">This email is already exits try another</div>';
             }
 
             if ($user->createUser()) {
-                echo '<div class="alert alert-success" role="alert">User created successfully. <a href="signin.php">Click here</a> to sign in.</div>';
-            }else{
-                echo '<div class="alert alert-danger" role="alert">Failed to create a user</div>';
+                $bs->displayAlert("User created successfully. <a href='signin.php'>Click here</a> to sign in.", "success");
+                // echo '<div class="alert alert-success" role="alert">User created successfully. <a href="signin.php">Click here</a> to sign in.</div>';
+            } else {
+                $bs->displayAlert("Failed to create a user", "danger");
+                // echo '<div class="alert alert-danger" role="alert">Failed to create a user</div>';
             }
         }
 

@@ -5,22 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shikikie : Signin</title>
-    <?php require_once("./config/link.php") ?>
+    <?php require_once("./component/link.php") ?>
 </head>
 
 <body>
-    <?php require_once("./config/nav.php") ?>
+    <?php require_once("./component/nav.php") ?>
     <div class="container">
         <h2 class="mt-3">Signin</h2>
 
         <?php
-        include_once("./config/connect_db.php");
-        include_once("./class/Signin.php");
+        include_once("../config/connect_db.php");
+        include_once("../class/Signin.php");
+        include_once("../class/Utils.php");
 
         $connectDB = new Database();
         $db = $connectDB->getConnection();
 
         $user = new Signin($db);
+        $bs = new Bootstrap();
 
 
         if (isset($_POST['signin'])) {
@@ -29,14 +31,17 @@
             $user->setPassword($_POST['password']);
             
             if ($user->emailNotExits()){
-                echo '<div class="alert alert-danger" role="alert">Email is not exits</div>';
+                $bs->displayAlert("Email is not exits","danger");
+                // echo '<div class="alert alert-danger" role="alert">Email is not exits</div>';
             }else{
                 if ($user->verifyPassword()){
-                    echo '<div class="alert alert-success" role="alert">Password matches</div>';
+                    // echo '<div class="alert alert-success" role="alert">Password matches</div>';
                 }else{
-                    echo '<div class="alert alert-danger" role="alert">Password do not match</div>';
+                    $bs->displayAlert("Password do not match","danger");
+                    // echo '<div class="alert alert-danger" role="alert">Password do not match</div>';
                 }
-                echo '<div class="alert alert-success" role="alert">Email is exits</div>';
+                
+                // echo '<div class="alert alert-success" role="alert">Email is exits</div>';
             }
            
             }
